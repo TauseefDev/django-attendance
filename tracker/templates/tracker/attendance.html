@@ -1,0 +1,59 @@
+    {% extends "tracker/layout.html" %}
+
+    {% block title %}
+    Attendance - Eminere Tutorials
+    {% endblock %}
+
+    {% block body %}
+
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <div class="container">
+            <!-- Attendance Date Input -->
+            <div class="row mb-3">
+                <label for="date" class="col-sm-3 col-form-label fw-bold">Attendance Date:</label>
+                <div class="col-sm-9">
+                    <input type="date" id="date" name="date" class="form-control" required>
+                </div>
+            </div>
+
+            <!-- Attendance Table -->
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col" class="text-center">Roll Number</th>
+                            <th scope="col" class="text-center">Student Name</th>
+                            <th scope="col" class="text-center">Attendance Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                            <tr>
+                                <td class="text-center fw-semibold">{{ student.roll_number }}</td>
+                                <!-- Student Name -->
+                                <td class="text-center fw-semibold">{{ student.name }}</td>
+                                
+                                <!-- Attendance Status Dropdown -->
+                                <td>
+                                    <select class="form-select" name="attendance_{{ student.id }}">
+                                        <option value="Present">Present</option>
+                                        <option value="Absent">Absent</option>
+                                        <option value="Non-maths">Non-maths</option>
+                                        <option value="Halfday">Halfday</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success btn-lg px-4">Submit Attendance</button>
+            </div>
+        </div>
+    </form>
+
+    {% endblock %}
